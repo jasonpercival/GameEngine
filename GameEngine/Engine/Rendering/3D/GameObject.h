@@ -4,7 +4,6 @@
 
 #include "Model.h"
 #include "Component.h"
-#include "/Dev/GameEngine/GameEngine/Game/Test/TestComponentA.h"
 
 class GameObject
 {

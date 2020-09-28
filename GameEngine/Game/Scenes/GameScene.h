@@ -4,8 +4,6 @@
 #include <glm/gtx/string_cast.hpp>
 
 #include "../../Engine/Core/CoreEngine.h"
-#include "../Test/TestComponentA.h"
-#include "../Test/TestComponentB.h"
 
 class GameScene : public Scene
 {

@@ -100,12 +100,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;GLEW_STATIC;GLM_FORCE_CTOR_INIT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\GameDev\SDL\include;C:\GameDev\glew\include\GL;C:\GameDev\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\GameDev\SDL\lib;C:\GameDev\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,7 +156,7 @@
     <ClCompile Include="Game\Game1.cpp" />
     <ClCompile Include="Engine\FX\LightSource.cpp" />
     <ClCompile Include="Engine\Rendering\3D\LoadOBJModel.cpp" />
-    <ClCompile Include="Game\Test\TestComponentB.cpp" />
+    <ClCompile Include="Engine\Testing\TestComponentB.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Engine\Core\Window.cpp" />
     <ClCompile Include="Engine\Core\Timer.cpp" />
@@ -167,7 +170,7 @@
     <ClCompile Include="Engine\Graphics\MaterialHandler.cpp" />
     <ClCompile Include="Engine\FX\MaterialLoader.cpp" />
     <ClCompile Include="Engine\Core\OctSpatialPartition.cpp" />
-    <ClCompile Include="Game\Test\TestComponentA.cpp" />
+    <ClCompile Include="Engine\Testing\TestComponentA.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Math\CollisionHandler.h" />
@@ -199,8 +202,8 @@
     <ClInclude Include="Engine\Graphics\MaterialHandler.h" />
     <ClInclude Include="Engine\FX\MaterialLoader.h" />
     <ClInclude Include="Engine\Core\OctSpatialPartition.h" />
-    <ClInclude Include="Game\Test\TestComponentA.h" />
-    <ClInclude Include="Game\Test\TestComponentB.h" />
+    <ClInclude Include="Engine\Testing\TestComponentA.h" />
+    <ClInclude Include="Engine\Testing\TestComponentB.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

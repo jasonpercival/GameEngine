@@ -14,6 +14,8 @@
 #include "../Graphics/TextureHandler.h"
 #include "../Camera/Camera.h"
 #include "../Events/EventListener.h"
+#include "../Testing/TestComponentA.h"
+#include "../Testing/TestComponentB.h"
 
 class CoreEngine
 {

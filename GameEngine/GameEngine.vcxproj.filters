@@ -90,10 +90,10 @@
     <ClCompile Include="Engine\Core\OctSpatialPartition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Test\TestComponentA.cpp">
+    <ClCompile Include="Engine\Testing\TestComponentA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Test\TestComponentB.cpp">
+    <ClCompile Include="Engine\Testing\TestComponentB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -185,10 +185,10 @@
     <ClInclude Include="Engine\Rendering\3D\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Test\TestComponentA.h">
+    <ClInclude Include="Engine\Testing\TestComponentA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Test\TestComponentB.h">
+    <ClInclude Include="Engine\Testing\TestComponentB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

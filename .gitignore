@@ -31,3 +31,8 @@
 *.out
 *.app
 GameEngine/Debug/
+.vs/
+GameEngine/x64/Debug/GameEngine.Build.CppClean.log
+GameEngine/x64/
+x64/
+GameEngine/GameEngineLog.txt
