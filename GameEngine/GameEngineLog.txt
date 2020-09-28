@@ -1,6 +1,0 @@
-[INFO]:Graphics Card: NVIDIA Corporation in: Window.cpp on line: 56
-[INFO]:OpenGL version: 4.5.0 NVIDIA 446.14 in: Window.cpp on line: 57
-[INFO]:Creating start scene in: StartScene.cpp on line: 13
-[INFO]:Engine started in: CoreEngine.cpp on line: 116
-[INFO]:Creating game scene in: GameScene.cpp on line: 15
-[ERROR]:Unable to add component that already exists on a game object. in: C:\Dev\GameEngine\GameEngine\Engine\Rendering\3D\GameObject.h on line: 48
