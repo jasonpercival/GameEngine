@@ -16,7 +16,7 @@ void MouseEventListener::RegisterEngineObject(CoreEngine* engine_)
 	engineInstance = engine_;
 }
 
-void MouseEventListener::Upate(SDL_Event e_)
+void MouseEventListener::Update(SDL_Event e_)
 {
 	if (e_.type == SDL_MOUSEBUTTONDOWN)
 	{

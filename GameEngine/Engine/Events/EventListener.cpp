@@ -23,7 +23,7 @@ void EventListener::Update()
 		case SDL_MOUSEBUTTONUP:
 		case SDL_MOUSEMOTION:
 		case SDL_MOUSEWHEEL:
-			MouseEventListener::Upate(sdlEvent);
+			MouseEventListener::Update(sdlEvent);
 			break;
 		default:
 			break;

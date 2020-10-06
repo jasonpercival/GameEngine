@@ -102,6 +102,10 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 		"Engine/Shaders/ColorVertexShader.glsl",
 		"Engine/Shaders/ColorFragmentShader.glsl");
 
+	ShaderHandler::GetInstance()->CreateProgram("spriteShader",
+		"Engine/Shaders/SpriteVertShader.glsl",
+		"Engine/Shaders/SpriteFragShader.glsl");
+
 	if (gameInterface)
 	{
 		if (!gameInterface->OnCreate())
@@ -152,6 +156,7 @@ void CoreEngine::Render()
 	if (gameInterface)
 	{
 		gameInterface->Render();
+		gameInterface->Draw();
 	}
 
 	SDL_GL_SwapWindow(window->GetWindow());

@@ -16,6 +16,7 @@
 #include "../Events/EventListener.h"
 #include "../Testing/TestComponentA.h"
 #include "../Testing/TestComponentB.h"
+#include "../Rendering/2D/GuiImageComponent.h"
 
 class CoreEngine
 {

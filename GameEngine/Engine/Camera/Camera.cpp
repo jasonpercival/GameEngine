@@ -18,9 +18,24 @@ Camera::Camera() : position(glm::vec3())
 		CoreEngine::GetInstance()->GetWindowSize().y,
 		nearPlane, farPlane);
 
-	orthographic = glm::ortho(0.0f, CoreEngine::GetInstance()->GetWindowSize().x,
-		0.0f, CoreEngine::GetInstance()->GetWindowSize().y,
-		-1.0f, 1.0f);
+	//orthographic = glm::ortho(
+	//	0.0f, CoreEngine::GetInstance()->GetWindowSize().x,
+	//	CoreEngine::GetInstance()->GetWindowSize().y, 0.0f,
+	//	-1.0f, 1.0f);
+
+	//orthographic = glm::ortho(
+	//	0.0f, 
+	//	CoreEngine::GetInstance()->GetWindowSize().x,
+	//	0.0f, 
+	//	CoreEngine::GetInstance()->GetWindowSize().y,
+	//	-1.0f, 1.0f);
+
+	orthographic = glm::ortho(
+		-CoreEngine::GetInstance()->GetWindowSize().x / 2.0f,	// left
+		CoreEngine::GetInstance()->GetWindowSize().x / 2.0f,	// right
+		-CoreEngine::GetInstance()->GetWindowSize().y / 2.0f,	// bottom
+		CoreEngine::GetInstance()->GetWindowSize().y / 2.0f,	// top
+		-1.0f, 1.0f);											// near, far
 
 	UpdateCameraVector();
 }
@@ -110,7 +125,7 @@ void Camera::ProcessMouseZoom(int y_)
 {
 	if (y_ < 0 || y_ > 0)
 	{
-		position += static_cast<float>(y_)* (forward * 1.0f);
+		position += static_cast<float>(y_) * (forward * 1.0f);
 	}
 	UpdateCameraVector();
 }

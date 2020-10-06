@@ -37,6 +37,23 @@ void CollisionHandler::AddObject(GameObject* go_)
 
 void CollisionHandler::MouseUpdate(glm::vec2 mousePosition_, int buttonType_)
 {
+	// check gui objects first
+	float sizeX = CoreEngine::GetInstance()->GetWindowSize().x / 2.0f;
+	float sizeY = CoreEngine::GetInstance()->GetWindowSize().y / 2.0f;
+	glm::vec2 mouseCoords = glm::vec2(mousePosition_.x - sizeX, sizeY - mousePosition_.y);
+
+	GuiObject* guiObjectHit = nullptr;
+	for (auto guiObject : SceneGraph::GetInstance()->sceneGuiObjects)
+	{
+		if (guiObject.second->FindContainingPoint(mouseCoords))
+		{
+			guiObjectHit = guiObject.second;
+			std::cout << "UI object clicked: " << guiObjectHit->GetTag() << std::endl;
+			return;
+		}
+	}
+
+	// otherwise check game objects
 	Ray mouseRay = CollisionDetection::ScreenPosToWorldRay(mousePosition_,
 		CoreEngine::GetInstance()->GetWindowSize(),
 		CoreEngine::GetInstance()->GetCamera());

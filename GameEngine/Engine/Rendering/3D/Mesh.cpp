@@ -73,10 +73,10 @@ void Mesh::Render(Camera* camera_, std::vector<BoundingBox> instances_)
 	}
 
 	// output culled objects for testing
-	if (noRenderCount > 0)
-	{
-		std::cout << "Objects culled: " << noRenderCount << " of " << instances_.size() << std::endl;
-	}
+	//if (noRenderCount > 0)
+	//{
+	//	std::cout << "Objects culled: " << noRenderCount << " of " << instances_.size() << std::endl;
+	//}
 
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);

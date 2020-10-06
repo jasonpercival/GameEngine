@@ -8,6 +8,9 @@ std::map<GLuint, std::vector<Model*>>();
 std::map<std::string, GameObject*> SceneGraph::sceneGameObjects =
 std::map<std::string, GameObject*>();
 
+std::map<std::string, GuiObject*> SceneGraph::sceneGuiObjects =
+std::map<std::string, GuiObject*>();
+
 SceneGraph::SceneGraph()
 {
 }
@@ -28,6 +31,17 @@ SceneGraph* SceneGraph::GetInstance()
 
 void SceneGraph::OnDestroy()
 {
+	// clean up guiobjects map
+	if (sceneGuiObjects.size() > 0)
+	{
+		for (auto go : sceneGuiObjects)
+		{
+			delete go.second;
+			go.second = nullptr;
+		}
+		sceneGuiObjects.clear();
+	}
+
 	// clean up gameobjects map
 	if (sceneGameObjects.size() > 0)
 	{
@@ -108,7 +122,39 @@ GameObject* SceneGraph::GetGameObject(std::string tag_)
 		return sceneGameObjects[tag_];
 	}
 	return nullptr;
+}
 
+void SceneGraph::AddGuiObject(GuiObject* go_, std::string tag_)
+{
+	if (tag_ == "")
+	{
+		std::string newTag = "GuiObject" + std::to_string(sceneGuiObjects.size() + 1);
+		go_->SetTag(newTag);
+		sceneGuiObjects[newTag] = go_;
+	}
+	else if (sceneGuiObjects.find(tag_) == sceneGuiObjects.end())
+	{
+		go_->SetTag(tag_);
+		sceneGuiObjects[tag_] = go_;
+	}
+	else
+	{
+		Debug::Warning("Trying to add a GuiObject with a tag " + tag_ +
+			" that already exists", "SceneGraph.cpp", __LINE__);
+
+		std::string newTag = "GuiObject" + std::to_string(sceneGuiObjects.size() + 1);
+		go_->SetTag(newTag);
+		sceneGuiObjects[newTag] = go_;
+	}
+}
+
+GuiObject* SceneGraph::GetGuiObject(std::string tag_)
+{
+	if (sceneGuiObjects.find(tag_) != sceneGuiObjects.end())
+	{
+		return sceneGuiObjects[tag_];
+	}
+	return nullptr;
 }
 
 void SceneGraph::Update(const float deltaTime_)
@@ -129,5 +175,22 @@ void SceneGraph::Render(Camera* camera_)
 			m->Render(camera_);
 		}
 	}
+}
+
+void SceneGraph::Draw(Camera* camera_) 
+{
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	GLuint shaderProgram = ShaderHandler::GetInstance()->GetShader("spriteShader");
+	glUseProgram(shaderProgram);
+
+	for (auto guiObject : sceneGuiObjects)
+	{
+		guiObject.second->Draw(camera_);
+	}
+
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 }
 

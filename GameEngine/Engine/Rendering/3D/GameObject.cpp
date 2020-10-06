@@ -139,7 +139,7 @@ void GameObject::SetHit(bool hit_, int buttonType_)
 	hit = hit_;
 	if (hit)
 	{
-		std::cout << tag << " was hit" << std::endl;
+		std::cout << "GameObject " << tag << " was hit" << std::endl;
 	}
 }
 

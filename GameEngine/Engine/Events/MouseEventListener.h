@@ -17,7 +17,7 @@ public:
 	~MouseEventListener();
 
 	static void RegisterEngineObject(CoreEngine* engine_);
-	static void Upate(SDL_Event e_);
+	static void Update(SDL_Event e_);
 
 	static void NotifyOfMousePressed(int buttonType_);
 	static void NotifyOfMouseReleased(int buttonType_);

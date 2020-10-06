@@ -19,5 +19,5 @@ bool TestComponentB::OnCreate(GameObject* parent_)
 
 void TestComponentB::Update(float deltaTime_)
 {
-	std::cout << "TestComponentB Update: deltaTime = " << deltaTime_ << std::endl;
+	//std::cout << "TestComponentB Update: deltaTime = " << deltaTime_ << std::endl;
 }
