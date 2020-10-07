@@ -63,7 +63,7 @@ public:
 		{
 			if (dynamic_cast<T*>(components[i]) != nullptr)
 			{
-				delete components[i];
+				delete components[i], components[i] = nullptr;
 				components.erase(components.begin() + i);
 				break;
 			}
@@ -72,7 +72,6 @@ public:
 
 private:
 	glm::vec2 position;
-
 	std::string tag;
 	std::vector<GuiComponent*> components;
 };

@@ -53,8 +53,6 @@ bool GameScene::OnCreate()
 	GameObject* apple = new GameObject(appleModel, glm::vec3(0.0f, 0.0f, -10.0f));
 
 	// add test components to gameobject
-	TestComponentA* testComponentA = new TestComponentA();
-	TestComponentB* testComponentB = new TestComponentB();
 	apple->AddComponent<TestComponentA>();
 	apple->AddComponent<TestComponentB>();
 	apple->AddComponent<TestComponentA>();
