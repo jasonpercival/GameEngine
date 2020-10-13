@@ -3,10 +3,12 @@
 
 GameScene::GameScene() : Scene()
 {
+	backgroundMusic = nullptr;
 }
 
 GameScene::~GameScene()
 {
+	delete backgroundMusic, backgroundMusic = nullptr;
 	SceneGraph::GetInstance()->OnDestroy();
 }
 
@@ -17,6 +19,9 @@ bool GameScene::OnCreate()
 	// setup camera
 	CoreEngine::GetInstance()->SetCamera(new Camera());
 	CoreEngine::GetInstance()->GetCamera()->SetPosition(glm::vec3(0.0f, 0.0f, 20.0f));
+
+	// setup audio
+	AudioHandler::GetInstance()->Initialize(CoreEngine::GetInstance()->GetCamera()->GetPosition());
 
 	// light sources
 	CoreEngine::GetInstance()->GetCamera()->AddLightSource(glm::vec3(0.0f, 0.0f, 2.0f), 0.1f, 0.5f, glm::vec3(1.0f, 1.0f, 1.0f));
@@ -46,11 +51,18 @@ bool GameScene::OnCreate()
 		float z = -5 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (12)));
 
 		GameObject* dice = new GameObject(diceModel, glm::vec3(x, y, z));
+
+		// add sound fx for when dice hit
+		dice->AddComponent<AudioSource>("knock.wav", false, true, false);
+
 		SceneGraph::GetInstance()->AddGameObject(dice, "Dice " + std::to_string(i));
 	}
 
 	// create an apple for testing mouse picking
 	GameObject* apple = new GameObject(appleModel, glm::vec3(0.0f, 0.0f, -10.0f));
+
+	// setup sound FX on a game object when clicked
+	apple->AddComponent<AudioSource>("quack.wav", false, true, false);
 
 	// add test components to gameobject
 	apple->AddComponent<TestComponentA>();
@@ -84,6 +96,10 @@ bool GameScene::OnCreate()
 	GuiImageComponent* blueBarImg = guiObjectC->GetComponent<GuiImageComponent>();
 	blueBarImg->OnCreate("bluebutton", glm::vec2(440.0f, 310.0f));
 	SceneGraph::GetInstance()->AddGuiObject(guiObjectC, "Blue Button");
+
+	// setup background music 
+	backgroundMusic = new AudioSource("music.mp3", true, false, true);
+	backgroundMusic->PlaySound(0.10f);
 
 	return true;
 }

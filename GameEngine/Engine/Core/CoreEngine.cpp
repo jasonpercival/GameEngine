@@ -164,6 +164,7 @@ void CoreEngine::Render()
 
 void CoreEngine::OnDestroy()
 {
+	AudioHandler::GetInstance()->OnDestroy();
 	ShaderHandler::GetInstance()->OnDestroy();
 	TextureHandler::GetInstance()->OnDestroy();
 	SceneGraph::GetInstance()->OnDestroy();

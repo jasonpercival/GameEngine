@@ -1,9 +1,9 @@
-
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
 #include "Model.h"
 #include "Component.h"
+#include "../../Audio/AudioSource.h"
 
 class GameObject
 {
@@ -29,11 +29,11 @@ public:
 	bool GetHit() const;
 	void SetHit(bool hit_, int buttonType_);
 
-	template<typename T>
-	inline void AddComponent()
+	template<typename T, typename ... Args>
+	inline void AddComponent(Args&&... args_)
 	{
 		// create new component and validate type
-		T* component = new T;
+		T* component = new T(std::forward<Args>(args_)...);
 		if (dynamic_cast<Component*>(component) == nullptr)
 		{
 			Debug::Error("Only component types can be added to game objects.", __FILE__, __LINE__);

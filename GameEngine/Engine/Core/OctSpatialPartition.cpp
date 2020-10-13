@@ -104,7 +104,7 @@ void OctNode::AddCollisionObject(GameObject* obj_)
 
 int OctNode::GetObjectCount() const
 {
-	return objectList.size();
+	return (int)objectList.size();
 }
 
 bool OctNode::IsLeaf() const

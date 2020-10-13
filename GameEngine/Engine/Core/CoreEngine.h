@@ -17,6 +17,8 @@
 #include "../Testing/TestComponentA.h"
 #include "../Testing/TestComponentB.h"
 #include "../Rendering/2D/GuiImageComponent.h"
+#include "../Audio/AudioHandler.h"
+#include "../Audio/AudioSource.h"
 
 class CoreEngine
 {
@@ -74,6 +76,5 @@ private:
 
 };
 
-#endif // !COREENGINE_H
-
+#endif
 

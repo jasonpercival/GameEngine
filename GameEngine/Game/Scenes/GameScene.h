@@ -17,6 +17,7 @@ public:
 	virtual void Draw();
 
 private:
+	AudioSource* backgroundMusic;
 };
 
 #endif // !GAMESCENE_H
