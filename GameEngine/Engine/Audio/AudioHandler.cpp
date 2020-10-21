@@ -50,7 +50,7 @@ void AudioHandler::LoadSound(const std::string& fileName, bool isLooping, bool i
 	if (GetSound(fileName) != nullptr)
 		return;
 
-	// set sound mode
+	// set sound modes
 	FMOD_MODE mode = FMOD_DEFAULT;
 	mode |= isLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
 	mode |= is3D ? FMOD_3D : FMOD_2D;

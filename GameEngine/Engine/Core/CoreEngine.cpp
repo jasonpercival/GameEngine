@@ -1,5 +1,9 @@
 #include "CoreEngine.h"
 #include "../Events/MouseEventListener.h"
+#include "imgui.h"
+#include "backends/imgui_impl_sdl.h"
+#include "backends/imgui_impl_opengl3.h"
+
 
 std::unique_ptr<CoreEngine> CoreEngine::engineInstance = nullptr;
 
@@ -83,6 +87,11 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 	Debug::DebugInit();
 	Debug::SetSeverity(MessageType::TYPE_INFO);
 
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+
 	window = new Window();
 	if (!window->OnCreate(name_, width_, height_))
 	{
@@ -142,6 +151,10 @@ bool CoreEngine::GetIsRunning() const
 
 void CoreEngine::Update(const float deltaTime_)
 {
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame(window->GetWindow());
+	ImGui::NewFrame();
+
 	if (gameInterface)
 	{
 		gameInterface->Update(deltaTime_);
@@ -158,6 +171,9 @@ void CoreEngine::Render()
 		gameInterface->Render();
 		gameInterface->Draw();
 	}
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	SDL_GL_SwapWindow(window->GetWindow());
 }
@@ -180,5 +196,5 @@ void CoreEngine::OnDestroy()
 	window = nullptr;
 	
 	SDL_Quit();
-	exit(0);
+	//exit(0);
 }

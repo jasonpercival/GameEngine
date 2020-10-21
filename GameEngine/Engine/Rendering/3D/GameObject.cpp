@@ -45,6 +45,10 @@ void GameObject::Update(const float deltaTime_)
 {
 	SetAngle(angle += 1.0f * deltaTime_);
 
+	//ImGui::Begin(tag.c_str());
+	//ImGui::Button("Hello!");
+	//ImGui::End();
+
 	// update all components
 	for (auto c : components)
 	{

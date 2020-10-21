@@ -1,5 +1,6 @@
 #include "Window.h"
 
+
 Window::Window() : width(0), height(0), window(nullptr)
 {
 }
@@ -23,6 +24,9 @@ bool Window::OnCreate(std::string name_, int width_, int height_)
 
 	// Create Window
 	SetPreAttributes();
+
+
+
 	window = SDL_CreateWindow(name_.c_str(),
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		width, height, SDL_WINDOW_OPENGL);
@@ -36,6 +40,10 @@ bool Window::OnCreate(std::string name_, int width_, int height_)
 	// Create OpenGL Context
 	context = SDL_GL_CreateContext(window);
 	SetPostAttributes();
+
+	// Setup Platform/Renderer bindings
+	ImGui_ImplSDL2_InitForOpenGL(window, context);
+	ImGui_ImplOpenGL3_Init();
 
 	GLenum error = glewInit();
 	if (error != GLEW_OK)
@@ -61,6 +69,9 @@ bool Window::OnCreate(std::string name_, int width_, int height_)
 
 void Window::OnDestroy()
 {
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 	window = nullptr;
