@@ -26,6 +26,10 @@ bool Game1::OnCreate()
 
 void Game1::Update(const float deltaTime_)
 {
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame((CoreEngine::GetInstance()->GetWindow()->GetWindow()));
+	ImGui::NewFrame();
+
 	if (currentSceneNum != CoreEngine::GetInstance()->GetCurrentScene())
 	{
 		BuildScene();
@@ -35,12 +39,32 @@ void Game1::Update(const float deltaTime_)
 
 void Game1::Render()
 {
-	currentScene->Render();
-}
+	// clear screen
+	RendererType renderType = CoreEngine::GetInstance()->GetRendererType();
+	switch (renderType)
+	{
+	case RendererType::OPENGL:
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		break;
+	default:
+		break;
+	}
 
-void Game1::Draw()
-{
+	currentScene->Render();
 	currentScene->Draw();
+
+	// swap window
+	switch (renderType)
+	{
+	case RendererType::OPENGL:
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		SDL_GL_SwapWindow(CoreEngine::GetInstance()->GetWindow()->GetWindow());
+		break;
+	default:
+		break;
+	}
 }
 
 void Game1::BuildScene()
@@ -49,9 +73,9 @@ void Game1::BuildScene()
 	currentScene = nullptr;
 
 	// TODO: Change to scene enumeration
-	switch (CoreEngine::GetInstance()->GetCurrentScene()) 
+	switch (CoreEngine::GetInstance()->GetCurrentScene())
 	{
-	case 1: 
+	case 1:
 		currentScene = new GameScene();
 		break;
 	default: // case 0: 

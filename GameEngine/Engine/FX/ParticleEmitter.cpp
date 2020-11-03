@@ -36,7 +36,7 @@ ParticleEmitter::~ParticleEmitter()
 void ParticleEmitter::Update(float deltaTime)
 {
 	ImGui::Begin("Particle Emitter");
-	ImGui::SliderInt("Particles", &particleCount, 1, 1000);
+	ImGui::SliderInt("Particles", &particleCount, 1, 1000);	
 	ImGui::SliderFloat3("Position", glm::value_ptr(startPosition), -10.0f, 10.0f, "%.3f");
 	ImGui::SliderFloat("Gravity", &gravity, 0.0f, 20.0f);
 	ImGui::SliderFloat("Max Size", &maxSize, 1.0f, 3.0f);

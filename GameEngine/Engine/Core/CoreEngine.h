@@ -21,6 +21,7 @@
 #include "../Audio/AudioSource.h"
 #include "../FX/ParticleEmitter.h"
 #include "../Math/Random.h"
+#include "../Rendering/3D/OpenGLRenderer.h"
 
 class CoreEngine
 {
@@ -38,11 +39,12 @@ public:
 	int GetCurrentScene();
 	glm::vec2 GetWindowSize() const;
 	Camera* GetCamera() const;
+	Window* GetWindow() const;
 
 	// singleton
 	static CoreEngine* GetInstance();
 
-	void SetGameInterface(GameInterface* gameInterface_);
+	void SetGameInterface(GameInterface* gameInterface_, RendererType rendererType_ = RendererType::OPENGL);
 	void SetCurrentScene(int sceneNum_);
 	void SetCamera(Camera* camera_);
 
@@ -52,6 +54,8 @@ public:
 	void NotifyOfMouseMove(glm::vec2 mouse_);
 	void NotifyOfMouseScroll(int y_);
 
+	inline RendererType GetRendererType() const { return rendererType; }
+	inline Renderer* GetRenderer() const { return renderer; }
 
 private:
 	CoreEngine();
@@ -75,7 +79,8 @@ private:
 	int currentSceneNum;
 
 	Camera* camera;
-
+	RendererType rendererType;
+	Renderer* renderer;
 };
 
 #endif

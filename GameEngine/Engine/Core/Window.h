@@ -8,8 +8,8 @@
 #include <iostream>
 
 #include "Debug.h"
-#include "backends/imgui_impl_sdl.h"
-#include "backends/imgui_impl_opengl3.h"
+
+#include "../Rendering/3D/Renderer.h"
 
 class Window
 {
@@ -17,7 +17,7 @@ public:
 	Window();
 	~Window();
 
-	bool OnCreate(std::string name_, int width_, int height_);
+	bool OnCreate(std::string name_, int width_, int height_, Renderer* renderer);
 	void OnDestroy();
 
 	int GetWidth();
@@ -25,8 +25,6 @@ public:
 
 	SDL_Window* GetWindow() const;
 private:
-	void SetPreAttributes();
-	void SetPostAttributes();
 
 	int width, height;
 	SDL_Window* window;

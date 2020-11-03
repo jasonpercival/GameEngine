@@ -16,6 +16,23 @@ bool GameScene::OnCreate()
 {
 	Debug::Info("Creating game scene", "GameScene.cpp", __LINE__);	
 
+	// setup the shaders
+	ShaderHandler::GetInstance()->CreateProgram("basicShader",
+		"Engine/Shaders/VertexShader.glsl",
+		"Engine/Shaders/FragmentShader.glsl");
+
+	ShaderHandler::GetInstance()->CreateProgram("colorShader",
+		"Engine/Shaders/ColorVertexShader.glsl",
+		"Engine/Shaders/ColorFragmentShader.glsl");
+
+	ShaderHandler::GetInstance()->CreateProgram("spriteShader",
+		"Engine/Shaders/SpriteVertShader.glsl",
+		"Engine/Shaders/SpriteFragShader.glsl");
+
+	ShaderHandler::GetInstance()->CreateProgram("particleShader",
+		"Engine/Shaders/particleVertShader.glsl",
+		"Engine/Shaders/particleFragShader.glsl");
+
 	// setup camera
 	CoreEngine::GetInstance()->SetCamera(new Camera());
 	CoreEngine::GetInstance()->GetCamera()->SetPosition(glm::vec3(0.0f, 0.0f, 20.0f));
@@ -52,13 +69,13 @@ bool GameScene::OnCreate()
 void GameScene::Update(const float deltaTime_)
 {
 	SceneGraph::GetInstance()->Update(deltaTime_);
-	particleEmitter->Update(deltaTime_);
+	if (particleEmitter) particleEmitter->Update(deltaTime_);
 }
 
 void GameScene::Render()
 {
 	SceneGraph::GetInstance()->Render(CoreEngine::GetInstance()->GetCamera());
-	particleEmitter->Render(CoreEngine::GetInstance()->GetCamera());
+	if (particleEmitter) particleEmitter->Render(CoreEngine::GetInstance()->GetCamera());
 }
 
 void GameScene::Draw()

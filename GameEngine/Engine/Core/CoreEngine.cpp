@@ -1,14 +1,11 @@
 #include "CoreEngine.h"
 #include "../Events/MouseEventListener.h"
-#include "imgui.h"
-#include "backends/imgui_impl_sdl.h"
-#include "backends/imgui_impl_opengl3.h"
-
 
 std::unique_ptr<CoreEngine> CoreEngine::engineInstance = nullptr;
 
 CoreEngine::CoreEngine() :
-	window(nullptr), isRunning(false), fps(120), gameInterface(nullptr), currentSceneNum(0), camera(nullptr)
+	window(nullptr), isRunning(false), fps(60), gameInterface(nullptr), currentSceneNum(0), camera(nullptr),
+	renderer(nullptr), rendererType(RendererType::NONE)
 {
 }
 
@@ -26,9 +23,10 @@ CoreEngine* CoreEngine::GetInstance()
 	return engineInstance.get();
 }
 
-void CoreEngine::SetGameInterface(GameInterface* gameInterface_)
+void CoreEngine::SetGameInterface(GameInterface* gameInterface_, RendererType rendererType_)
 {
 	gameInterface = gameInterface_;
+	rendererType = rendererType_;
 }
 
 int CoreEngine::GetCurrentScene()
@@ -44,6 +42,11 @@ glm::vec2 CoreEngine::GetWindowSize() const
 Camera* CoreEngine::GetCamera() const
 {
 	return camera;
+}
+
+Window* CoreEngine::GetWindow() const
+{
+	return window;
 }
 
 void CoreEngine::SetCurrentScene(int sceneNum_)
@@ -87,13 +90,29 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 	Debug::DebugInit();
 	Debug::SetSeverity(MessageType::TYPE_INFO);
 
+	// initialize renderer
+	switch (rendererType)
+	{
+	case RendererType::OPENGL:
+		renderer = new OpenGLRenderer();
+		break;
+	case RendererType::VULKAN:
+		Debug::FatalError("Vulkan renderer is not available at this time.", "CoreEngine.cpp", __LINE__);
+		return false;
+	default:
+		Debug::FatalError("Unsupported renderer.", "CoreEngine.cpp", __LINE__);
+		return false;
+	}
+
+	// Imgui initialization
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui::StyleColorsDark();
 
+	// create window
 	window = new Window();
-	if (!window->OnCreate(name_, width_, height_))
+	if (!window->OnCreate(name_, width_, height_, renderer))
 	{
 		Debug::FatalError("Window failed to initialize.", "CoreEngine.cpp", __LINE__);
 		return isRunning = false;
@@ -103,22 +122,6 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 
 	MouseEventListener::RegisterEngineObject(this);
 
-	ShaderHandler::GetInstance()->CreateProgram("basicShader",
-		"Engine/Shaders/VertexShader.glsl",
-		"Engine/Shaders/FragmentShader.glsl");
-
-	ShaderHandler::GetInstance()->CreateProgram("colorShader",
-		"Engine/Shaders/ColorVertexShader.glsl",
-		"Engine/Shaders/ColorFragmentShader.glsl");
-
-	ShaderHandler::GetInstance()->CreateProgram("spriteShader",
-		"Engine/Shaders/SpriteVertShader.glsl",
-		"Engine/Shaders/SpriteFragShader.glsl");
-
-	ShaderHandler::GetInstance()->CreateProgram("particleShader",
-		"Engine/Shaders/particleVertShader.glsl",
-		"Engine/Shaders/particleFragShader.glsl");
-
 	if (gameInterface)
 	{
 		if (!gameInterface->OnCreate())
@@ -127,7 +130,6 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 			return isRunning = false;
 		}
 	}
-
 
 	timer.Start();
 	Debug::Info("Engine started", "CoreEngine.cpp", __LINE__);
@@ -155,31 +157,14 @@ bool CoreEngine::GetIsRunning() const
 
 void CoreEngine::Update(const float deltaTime_)
 {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(window->GetWindow());
-	ImGui::NewFrame();
-
 	if (gameInterface)
-	{
 		gameInterface->Update(deltaTime_);
-	}
 }
 
 void CoreEngine::Render()
 {
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	if (gameInterface)
-	{
 		gameInterface->Render();
-		gameInterface->Draw();
-	}
-
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-	SDL_GL_SwapWindow(window->GetWindow());
 }
 
 void CoreEngine::OnDestroy()
@@ -196,9 +181,11 @@ void CoreEngine::OnDestroy()
 	delete gameInterface;
 	gameInterface = nullptr;
 
+	delete renderer;
+	renderer = nullptr;
+
 	delete window;
 	window = nullptr;
-	
+
 	SDL_Quit();
-	//exit(0);
 }
