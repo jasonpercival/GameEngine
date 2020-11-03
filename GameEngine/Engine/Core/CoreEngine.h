@@ -19,6 +19,8 @@
 #include "../Rendering/2D/GuiImageComponent.h"
 #include "../Audio/AudioHandler.h"
 #include "../Audio/AudioSource.h"
+#include "../FX/ParticleEmitter.h"
+#include "../Math/Random.h"
 
 class CoreEngine
 {

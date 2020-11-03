@@ -9,12 +9,7 @@
 #include "../../Camera/Camera.h"
 #include "../../Graphics/TextureHandler.h"
 #include "../../Graphics/ShaderHandler.h"
-
-struct Vertex2D
-{
-	glm::vec2 position;
-	glm::vec2 texCoords;
-};
+#include "../3D/Mesh.h"
 
 class SpriteSurface
 {

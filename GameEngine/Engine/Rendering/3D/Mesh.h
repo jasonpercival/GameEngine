@@ -18,6 +18,12 @@ struct Vertex
 	glm::vec3 color;
 };
 
+struct Vertex2D
+{
+	glm::vec2 position;
+	glm::vec2 texCoords;
+};
+
 struct SubMesh
 {
 	std::vector<Vertex> vertexList;

@@ -183,6 +183,9 @@
     <ClCompile Include="Engine\FX\MaterialLoader.cpp" />
     <ClCompile Include="Engine\Core\OctSpatialPartition.cpp" />
     <ClCompile Include="Engine\Testing\TestComponentA.cpp" />
+    <ClCompile Include="Engine\FX\Particle.cpp" />
+    <ClCompile Include="Engine\FX\ParticleEmitter.cpp" />
+    <ClCompile Include="Engine\Rendering\3D\ParticleComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\AudioSource.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="Engine\Core\Scene.h" />
     <ClInclude Include="Engine\Core\Window.h" />
     <ClInclude Include="Engine\Core\Timer.h" />
+    <ClInclude Include="Engine\Math\Random.h" />
     <ClInclude Include="Engine\Math\Ray.h" />
     <ClInclude Include="Engine\Rendering\2D\GuiComponent.h" />
     <ClInclude Include="Engine\Rendering\2D\SpriteSurface.h" />
@@ -231,12 +235,17 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="imgui\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="Engine\FX\Particle.h" />
+    <ClInclude Include="Engine\FX\ParticleEmitter.h" />
+    <ClInclude Include="Engine\Rendering\3D\ParticleComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="Engine\Shaders\ColorFragmentShader.glsl" />
     <None Include="Engine\Shaders\ColorVertexShader.glsl" />
     <None Include="Engine\Shaders\FragmentShader.glsl" />
+    <None Include="Engine\Shaders\ParticleFragShader.glsl" />
+    <None Include="Engine\Shaders\ParticleVertShader.glsl" />
     <None Include="Engine\Shaders\SpriteFragShader.glsl" />
     <None Include="Engine\Shaders\SpriteVertShader.glsl" />
     <None Include="Engine\Shaders\VertexShader.glsl" />

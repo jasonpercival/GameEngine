@@ -18,6 +18,7 @@ public:
 
 private:
 	AudioSource* backgroundMusic;
+	ParticleEmitter* particleEmitter;
 };
 
 #endif // !GAMESCENE_H

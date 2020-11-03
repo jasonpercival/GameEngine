@@ -115,6 +115,10 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 		"Engine/Shaders/SpriteVertShader.glsl",
 		"Engine/Shaders/SpriteFragShader.glsl");
 
+	ShaderHandler::GetInstance()->CreateProgram("particleShader",
+		"Engine/Shaders/particleVertShader.glsl",
+		"Engine/Shaders/particleFragShader.glsl");
+
 	if (gameInterface)
 	{
 		if (!gameInterface->OnCreate())
@@ -163,7 +167,7 @@ void CoreEngine::Update(const float deltaTime_)
 
 void CoreEngine::Render()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (gameInterface)
