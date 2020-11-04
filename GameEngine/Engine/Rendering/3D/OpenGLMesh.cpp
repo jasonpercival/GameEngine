@@ -1,6 +1,6 @@
-#include "Mesh.h"
+#include "OpenGLMesh.h"
 
-Mesh::Mesh(SubMesh subMesh_, GLuint shaderProgram_) :
+OpenGLMesh::OpenGLMesh(SubMesh subMesh_, GLuint shaderProgram_) :
 	VAO(0), VBO(0), modelLoc(0), viewLoc(0), projLoc(0), viewPositionLoc(0), lightPosLoc(0), 
 	lightambientLoc(0), lightdiffuseLoc(0), lightColorLoc(0), diffuseMapLoc(0), shininessLoc(0), 
 	transparencyLoc(0), ambientLoc(0), diffuseLoc(0), specularLoc(0)
@@ -10,7 +10,7 @@ Mesh::Mesh(SubMesh subMesh_, GLuint shaderProgram_) :
 	GenerateBuffers();
 }
 
-Mesh::~Mesh()
+OpenGLMesh::~OpenGLMesh()
 {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
@@ -26,7 +26,7 @@ Mesh::~Mesh()
 	}
 }
 
-void Mesh::Render(Camera* camera_, std::vector<BoundingBox> instances_)
+void OpenGLMesh::Render(Camera* camera_, std::vector<BoundingBox> instances_)
 {
 	glUniform1i(diffuseMapLoc, 0);
 	glActiveTexture(GL_TEXTURE0);
@@ -58,13 +58,13 @@ void Mesh::Render(Camera* camera_, std::vector<BoundingBox> instances_)
 	glBindVertexArray(VAO);
 
 	int noRenderCount = 0;
-	for (size_t i = 0; i < instances_.size(); i++)
+	for (int i = 0; i < instances_.size(); i++)
 	{
 		// frustum culling using OBB
 		if (frustum.IsBoxInFrustum(instances_[i]))
 		{
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(instances_[i].transform));
-			glDrawArrays(GL_TRIANGLES, 0, subMesh.vertexList.size());
+			glDrawArrays(GL_TRIANGLES, 0, (int)subMesh.vertexList.size());
 		}
 		else
 		{
@@ -82,7 +82,7 @@ void Mesh::Render(Camera* camera_, std::vector<BoundingBox> instances_)
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Mesh::GenerateBuffers()
+void OpenGLMesh::GenerateBuffers()
 {
 	// generate VAO and VBO
 	glGenVertexArrays(1, &VAO);
@@ -129,3 +129,4 @@ void Mesh::GenerateBuffers()
 	diffuseLoc = glGetUniformLocation(shaderProgram, "material.diffuse");
 	specularLoc = glGetUniformLocation(shaderProgram, "material.specular");
 }
+

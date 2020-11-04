@@ -175,7 +175,7 @@
     <ClCompile Include="Engine\Core\Timer.cpp" />
     <ClCompile Include="Game\Scenes\StartScene.cpp" />
     <ClCompile Include="Engine\Rendering\3D\Model.cpp" />
-    <ClCompile Include="Engine\Rendering\3D\Mesh.cpp" />
+    <ClCompile Include="Engine\Rendering\3D\OpenGLMesh.cpp" />
     <ClCompile Include="Engine\Graphics\ShaderHandler.cpp" />
     <ClCompile Include="Engine\Graphics\TextureHandler.cpp" />
     <ClCompile Include="Engine\Events\MouseEventListener.cpp" />
@@ -215,7 +215,7 @@
     <ClInclude Include="Game\Game1.h" />
     <ClInclude Include="Game\Scenes\StartScene.h" />
     <ClInclude Include="Engine\Rendering\3D\Model.h" />
-    <ClInclude Include="Engine\Rendering\3D\Mesh.h" />
+    <ClInclude Include="Engine\Rendering\3D\OpenGLMesh.h" />
     <ClInclude Include="Engine\Graphics\ShaderHandler.h" />
     <ClInclude Include="Engine\Graphics\TextureHandler.h" />
     <ClInclude Include="Engine\FX\LightSource.h" />
@@ -241,6 +241,7 @@
     <ClInclude Include="Engine\FX\Particle.h" />
     <ClInclude Include="Engine\FX\ParticleEmitter.h" />
     <ClInclude Include="Engine\Rendering\3D\ParticleComponent.h" />
+    <ClInclude Include="Engine\Rendering\3D\Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -26,9 +26,14 @@ Particle::~Particle()
 // Initialize particle default values
 void Particle::Initialize()
 {
-	lifeTime = Random::Range(1.0f, pe->GetMaxLife());
+	lifeTime = Random::Range(1.0f, pe->GetMaxLife());	
 	accel = glm::vec3(0.0f, -pe->GetGravity(), 0.0f);
-	velocity = glm::vec3(Random::Range(-5.0f, 8.0f), Random::Range(0.0f, 8.0f), Random::Range(-3.0f, 8.0f));
+	
+	velocity = glm::vec3(
+		Random::Range(pe->GetVelocityMin().x, pe->GetVelocityMax().x),
+		Random::Range(pe->GetVelocityMin().y, pe->GetVelocityMax().y),
+		Random::Range(pe->GetVelocityMin().z, pe->GetVelocityMax().z));
+
 	position = pe->GetPosition();
 
 	float color1 = Random::Range(0.8f, 1.0f);

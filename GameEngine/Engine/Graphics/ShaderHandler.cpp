@@ -78,7 +78,7 @@ GLuint ShaderHandler::CreateShader(GLenum shaderType_,
 	GLint compileResult = 0;
 	GLuint shader = glCreateShader(shaderType_);
 	const char* shaderCodePtr = source_.c_str();
-	const int shaderCodeSize = source_.size();
+	const int shaderCodeSize = (int)source_.size();
 
 	glShaderSource(shader, 1, &shaderCodePtr, &shaderCodeSize);
 	glCompileShader(shader);

@@ -1,4 +1,6 @@
 #include "Model.h"
+#include "OpenGLMesh.h"
+#include "../../Core/CoreEngine.h"
 
 Model::Model(const std::string& objFilePath_, const std::string& mtlFilePath_, GLuint shaderProgram_) :
 	subMeshes(std::vector<Mesh*>()), shaderProgram(0), modelInstances(std::vector<BoundingBox>())
@@ -6,6 +8,7 @@ Model::Model(const std::string& objFilePath_, const std::string& mtlFilePath_, G
 	subMeshes.reserve(10);
 	shaderProgram = shaderProgram_;
 	modelInstances.reserve(5);
+	rendererType = CoreEngine::GetInstance()->GetRendererType();
 
 	obj = new LoadOBJModel();
 	obj->LoadModel(objFilePath_, mtlFilePath_);
@@ -46,7 +49,7 @@ int Model::CreateInstance(glm::vec3 position_, float angle_, glm::vec3 rotation_
 {
 	box.transform = GetTransform(position_, angle_, rotation_, scale_);
 	modelInstances.push_back(box);
-	return modelInstances.size() - 1;
+	return (int)modelInstances.size() - 1;
 }
 
 void Model::UpdateInstance(int index_, glm::vec3 position_, float angle_, glm::vec3 rotation_, glm::vec3 scale_)
@@ -82,7 +85,15 @@ void Model::LoadModel()
 {
 	for (size_t i = 0; i < obj->GetSubMeshes().size(); i++)
 	{
-		subMeshes.push_back(new Mesh(obj->GetSubMeshes()[i], shaderProgram));
+		if (rendererType == RendererType::OPENGL)
+		{
+			subMeshes.push_back(new OpenGLMesh(obj->GetSubMeshes()[i], shaderProgram));
+		}
+		else
+		{
+			Debug::FatalError("Unsupported RendererType", "Model.cpp", __LINE__);
+			break;
+		}
 	}
 
 	box = obj->GetBoundingBox();
@@ -90,8 +101,3 @@ void Model::LoadModel()
 	delete obj;
 	obj = nullptr;
 }
-
-
-
-
-
