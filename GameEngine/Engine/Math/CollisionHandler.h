@@ -2,7 +2,7 @@
 #define COLLISIONHANDLER_H
 
 #include "Ray.h"
-#include "../Rendering/3D//GameObject.h"
+#include "../Rendering/3D/GameObject.h"
 #include "../Core/OctSpatialPartition.h"
 
 class CollisionHandler

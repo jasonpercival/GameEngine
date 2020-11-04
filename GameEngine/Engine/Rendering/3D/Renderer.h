@@ -4,7 +4,10 @@
 #include <SDL.h>
 #include <string>
 
-enum class RendererType { NONE = 0, OPENGL, VULKAN };
+enum class RendererType : unsigned short
+{
+	NONE = 0, OPENGL, VULKAN
+};
 
 class Renderer
 {

@@ -8,20 +8,21 @@
 #include "Debug.h"
 #include "GameInterface.h"
 #include "Scene.h"
-#include "../Rendering/3D/GameObject.h"
-#include "../Rendering/SceneGraph.h"
+
+#include "../Math/Random.h"
+#include "../Camera/Camera.h"
 #include "../Graphics/ShaderHandler.h"
 #include "../Graphics/TextureHandler.h"
-#include "../Camera/Camera.h"
+#include "../Rendering/3D/GameObject.h"
+#include "../Rendering/SceneGraph.h"
+#include "../Rendering/3D/OpenGLRenderer.h"
+#include "../Rendering/2D/GuiImageComponent.h"
+#include "../FX/ParticleEmitter.h"
 #include "../Events/EventListener.h"
 #include "../Testing/TestComponentA.h"
 #include "../Testing/TestComponentB.h"
-#include "../Rendering/2D/GuiImageComponent.h"
 #include "../Audio/AudioHandler.h"
 #include "../Audio/AudioSource.h"
-#include "../FX/ParticleEmitter.h"
-#include "../Math/Random.h"
-#include "../Rendering/3D/OpenGLRenderer.h"
 
 class CoreEngine
 {
@@ -68,17 +69,17 @@ private:
 	void Render();
 	void OnDestroy();
 
+	Camera* camera;
 	Window* window;
-	bool isRunning;
 
 	Timer timer;
 	unsigned int fps;
 
-	GameInterface* gameInterface;
+	bool isRunning;
 
+	GameInterface* gameInterface;
 	int currentSceneNum;
 
-	Camera* camera;
 	RendererType rendererType;
 	Renderer* renderer;
 };
