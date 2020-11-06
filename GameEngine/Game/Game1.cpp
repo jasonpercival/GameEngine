@@ -12,6 +12,7 @@ Game1::~Game1()
 
 bool Game1::OnCreate()
 {
+	rendererType = CoreEngine::GetInstance()->GetRendererType();
 	if (CoreEngine::GetInstance()->GetCurrentScene() == 0)
 	{
 		currentScene = new StartScene();
@@ -37,34 +38,44 @@ void Game1::Update(const float deltaTime_)
 	currentScene->Update(deltaTime_);
 }
 
-void Game1::Render()
+void Game1::ClearScreen()
 {
-	// clear screen
-	RendererType renderType = CoreEngine::GetInstance()->GetRendererType();
-	switch (renderType)
+	// clear screen	
+	if (rendererType == RendererType::OPENGL)
 	{
-	case RendererType::OPENGL:
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		break;
-	default:
-		break;
 	}
-
-	currentScene->Render();
-	currentScene->Draw();
-
-	// swap window
-	switch (renderType)
+	else
 	{
-	case RendererType::OPENGL:
+		Debug::FatalError("Unsupported renderer type.", "Game1.cpp", __LINE__);
+		CoreEngine::GetInstance()->Exit();
+		return;
+	}
+}
+
+void Game1::SwapWindow()
+{
+	// swap window
+	if (rendererType == RendererType::OPENGL)
+	{
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		SDL_GL_SwapWindow(CoreEngine::GetInstance()->GetWindow()->GetWindow());
-		break;
-	default:
-		break;
 	}
+	else
+	{
+		Debug::FatalError("Unsupported renderer type.", "Game1.cpp", __LINE__);
+		CoreEngine::GetInstance()->Exit();
+	}
+}
+
+void Game1::Render()
+{
+	ClearScreen();
+	currentScene->Render();
+	currentScene->Draw();
+	SwapWindow();
 }
 
 void Game1::BuildScene()

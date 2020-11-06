@@ -16,9 +16,12 @@ public:
 	virtual void Render();
 	
 private:
+	void ClearScreen();
+	void SwapWindow();
 	int currentSceneNum;
 	Scene* currentScene;
 	void BuildScene();
+	RendererType rendererType;
 };
 
 #endif // !GAME1_H

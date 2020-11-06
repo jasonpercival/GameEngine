@@ -244,7 +244,6 @@
     <ClInclude Include="Engine\Rendering\3D\Mesh.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="Engine\Shaders\ColorFragmentShader.glsl" />
     <None Include="Engine\Shaders\ColorVertexShader.glsl" />
     <None Include="Engine\Shaders\FragmentShader.glsl" />
