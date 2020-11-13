@@ -7,7 +7,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "../Core/Debug.h"
-#include <glew.h>
+#include <gl/glew.h>
 
 struct Texture
 {

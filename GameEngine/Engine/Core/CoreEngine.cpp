@@ -5,7 +5,7 @@ std::unique_ptr<CoreEngine> CoreEngine::engineInstance = nullptr;
 
 CoreEngine::CoreEngine() :
 	window(nullptr), isRunning(false), fps(60), gameInterface(nullptr), currentSceneNum(0), camera(nullptr),
-	renderer(nullptr), rendererType(RendererType::NONE)
+	renderer(nullptr), rendererType(RendererType::NONE), allowCameraMove(false)
 {
 }
 
@@ -32,6 +32,11 @@ void CoreEngine::SetGameInterface(GameInterface* gameInterface_, RendererType re
 int CoreEngine::GetCurrentScene()
 {
 	return currentSceneNum;
+}
+
+void CoreEngine::SetFPS(int fps_)
+{
+	fps = fps_;
 }
 
 glm::vec2 CoreEngine::GetWindowSize() const
@@ -64,18 +69,23 @@ void CoreEngine::Exit()
 	isRunning = false;
 }
 
-void CoreEngine::NotifyOfMousePressed(glm::vec2 mouse_)
+void CoreEngine::NotifyOfMousePressed(glm::vec2 mouse_, int buttonType_)
 {
+	if (buttonType_ == 3)
+		allowCameraMove = true;
 }
 
 void CoreEngine::NotifyOfMouseReleased(glm::vec2 mouse_, int buttonType_)
 {
 	CollisionHandler::GetInstance()->MouseUpdate(mouse_, buttonType_);
+	if (buttonType_ == 3)
+		allowCameraMove = false;
+
 }
 
 void CoreEngine::NotifyOfMouseMove(glm::vec2 mouse_)
 {
-	if (camera)
+	if (camera && allowCameraMove)
 		camera->ProcessMouseMovement(MouseEventListener::GetMouseOffset());
 }
 
@@ -175,17 +185,10 @@ void CoreEngine::OnDestroy()
 	SceneGraph::GetInstance()->OnDestroy();
 	CollisionHandler::GetInstance()->OnDestroy();
 
-	delete camera;
-	camera = nullptr;
-
-	delete gameInterface;
-	gameInterface = nullptr;
-
-	delete renderer;
-	renderer = nullptr;
-
-	delete window;
-	window = nullptr;
+	delete camera, camera = nullptr;
+	delete gameInterface, gameInterface = nullptr;
+	delete renderer, renderer = nullptr;
+	delete window, window = nullptr;
 
 	SDL_Quit();
 }

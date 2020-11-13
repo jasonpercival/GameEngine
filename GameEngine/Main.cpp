@@ -3,11 +3,30 @@
 
 int main(int argc, char* arg[])
 {
-	CoreEngine::GetInstance()->SetGameInterface(new Game1);
+	// default engine settings
+	std::string windowName = "Game Engine";
+	int windowWidth = 1280, windowHeight = 720;
+	int fps = 30;
 
-	if (!CoreEngine::GetInstance()->OnCreate("Game Engine", 1280, 720))
+	// load configuration from json file to overide default engine settings (if available)
+	std::ifstream configFile("engineConfig.json");
+	if (configFile)
 	{
-		std::cout << "Failed to create game engine." << std::endl;
+		std::cout << "Loading configuration settings.\n";
+		json j;
+		configFile >> j;
+		fps = j["fps"].get<int>();
+		windowName = j["window"]["name"].get<std::string>();
+		windowWidth = j["window"]["width"].get<int>();
+		windowHeight = j["window"]["height"].get<int>();
+	}
+
+	CoreEngine::GetInstance()->SetGameInterface(new Game1);
+	CoreEngine::GetInstance()->SetFPS(fps);
+
+	if (!CoreEngine::GetInstance()->OnCreate(windowName, windowWidth, windowHeight))
+	{
+		std::cout << "Failed to create game engine.\n";
 		return 0;
 	}
 

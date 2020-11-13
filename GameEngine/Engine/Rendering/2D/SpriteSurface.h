@@ -2,7 +2,7 @@
 #define SPRITESURFACE_H
 
 #include <iostream>
-#include <glew.h>
+#include <gl/glew.h>
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>

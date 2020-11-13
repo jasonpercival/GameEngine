@@ -344,21 +344,12 @@ void ImGui::StyleColorsLight(ImGuiStyle* dst)
 
 ImDrawListSharedData::ImDrawListSharedData()
 {
-    Font = NULL;
-    FontSize = 0.0f;
-    CurveTessellationTol = 0.0f;
-    CircleSegmentMaxError = 0.0f;
-    ClipRectFullscreen = ImVec4(-8192.0f, -8192.0f, +8192.0f, +8192.0f);
-    InitialFlags = ImDrawListFlags_None;
-
-    // Lookup tables
+    memset(this, 0, sizeof(*this));
     for (int i = 0; i < IM_ARRAYSIZE(ArcFastVtx); i++)
     {
         const float a = ((float)i * 2 * IM_PI) / (float)IM_ARRAYSIZE(ArcFastVtx);
         ArcFastVtx[i] = ImVec2(ImCos(a), ImSin(a));
     }
-    memset(CircleSegmentCounts, 0, sizeof(CircleSegmentCounts)); // This will be set by SetCircleSegmentMaxError()
-    TexUvLines = NULL;
 }
 
 void ImDrawListSharedData::SetCircleSegmentMaxError(float max_error)
@@ -1426,10 +1417,14 @@ void ImDrawListSplitter::ClearFreeMemory()
 
 void ImDrawListSplitter::Split(ImDrawList* draw_list, int channels_count)
 {
+    IM_UNUSED(draw_list);
     IM_ASSERT(_Current == 0 && _Count <= 1 && "Nested channel splitting is not supported. Please use separate instances of ImDrawListSplitter.");
     int old_channels_count = _Channels.Size;
     if (old_channels_count < channels_count)
+    {
+        _Channels.reserve(channels_count); // Avoid over reserving since this is likely to stay stable
         _Channels.resize(channels_count);
+    }
     _Count = channels_count;
 
     // Channels[] (24/32 bytes each) hold storage that we'll swap with draw_list->_CmdBuffer/_IdxBuffer
@@ -1446,12 +1441,6 @@ void ImDrawListSplitter::Split(ImDrawList* draw_list, int channels_count)
         {
             _Channels[i]._CmdBuffer.resize(0);
             _Channels[i]._IdxBuffer.resize(0);
-        }
-        if (_Channels[i]._CmdBuffer.Size == 0)
-        {
-            ImDrawCmd draw_cmd;
-            ImDrawCmd_HeaderCopy(&draw_cmd, &draw_list->_CmdHeader); // Copy ClipRect, TextureId, VtxOffset
-            _Channels[i]._CmdBuffer.push_back(draw_cmd);
         }
     }
 }
@@ -1542,8 +1531,10 @@ void ImDrawListSplitter::SetCurrentChannel(ImDrawList* draw_list, int idx)
     draw_list->_IdxWritePtr = draw_list->IdxBuffer.Data + draw_list->IdxBuffer.Size;
 
     // If current command is used with different settings we need to add a new command
-    ImDrawCmd* curr_cmd = &draw_list->CmdBuffer.Data[draw_list->CmdBuffer.Size - 1];
-    if (curr_cmd->ElemCount == 0)
+    ImDrawCmd* curr_cmd = (draw_list->CmdBuffer.Size == 0) ? NULL : &draw_list->CmdBuffer.Data[draw_list->CmdBuffer.Size - 1];
+    if (curr_cmd == NULL)
+        draw_list->AddDrawCmd();
+    else if (curr_cmd->ElemCount == 0)
         ImDrawCmd_HeaderCopy(curr_cmd, &draw_list->_CmdHeader); // Copy ClipRect, TextureId, VtxOffset
     else if (ImDrawCmd_HeaderCompare(curr_cmd, &draw_list->_CmdHeader) != 0)
         draw_list->AddDrawCmd();

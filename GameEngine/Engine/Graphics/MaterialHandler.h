@@ -1,7 +1,7 @@
 #ifndef MATERIALHANDLER_H
 #define MATERIALHANDLER_H
 
-#include <glew.h>
+#include <gl/glew.h>
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>

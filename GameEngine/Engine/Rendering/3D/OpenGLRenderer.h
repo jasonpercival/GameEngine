@@ -1,13 +1,13 @@
 #ifndef OPENGLRENDERER_H
 #define OPENGLRENDERER_H
 
-#include <glew.h>
+#include <gl/glew.h>
 #include <SDL_opengl.h>
+#include <backends/imgui_impl_sdl.h>
+#include <backends/imgui_impl_opengl3.h>
 
 #include "Renderer.h"
 #include "../../Core/Debug.h"
-#include "backends/imgui_impl_sdl.h"
-#include "backends/imgui_impl_opengl3.h"
 
 class OpenGLRenderer : public Renderer
 {

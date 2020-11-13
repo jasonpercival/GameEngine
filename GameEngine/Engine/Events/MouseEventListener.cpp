@@ -43,7 +43,7 @@ void MouseEventListener::NotifyOfMousePressed(int buttonType_)
 {
 	if (engineInstance)
 	{
-		engineInstance->NotifyOfMousePressed(mouse);
+		engineInstance->NotifyOfMousePressed(mouse, buttonType_);
 	}
 }
 

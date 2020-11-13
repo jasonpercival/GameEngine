@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 #include <memory>
-#include <glew.h>
+#include <gl/glew.h>
 #include "../Core/debug.h"
 
 class ShaderHandler

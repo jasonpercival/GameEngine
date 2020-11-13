@@ -56,6 +56,10 @@ void Particle::Render(Camera* camera)
 	// model transform matrix
 	glm::mat4 model(1.0f);
 	model = glm::translate(model, glm::vec3(position));
+
+	// sort order based on:
+	//length of (camera position - position) = camera distance
+
 	//model = glm::rotate(model, angle, glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::scale(model, glm::vec3(particleSize));
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));

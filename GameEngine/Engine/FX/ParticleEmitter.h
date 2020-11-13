@@ -2,13 +2,13 @@
 #define PARTICLEEMITTER_H
 
 #include <string>
-#include <glew.h>
-#include <imgui.h>
+#include <gl/glew.h>
 
 #include "../Graphics/TextureHandler.h"
 #include "../Graphics/ShaderHandler.h"
 #include "../Math/Random.h"
 #include "Particle.h"
+#include "imgui.h"
 
 class ParticleEmitter
 {

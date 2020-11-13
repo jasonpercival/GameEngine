@@ -23,6 +23,10 @@
 #include "../Testing/TestComponentB.h"
 #include "../Audio/AudioHandler.h"
 #include "../Audio/AudioSource.h"
+#include "nlohmann/json.hpp"
+
+// for convenience
+using json = nlohmann::json;
 
 class CoreEngine
 {
@@ -38,6 +42,7 @@ public:
 
 	bool GetIsRunning() const;
 	int GetCurrentScene();
+	void SetFPS(int fps_);
 	glm::vec2 GetWindowSize() const;
 	Camera* GetCamera() const;
 	Window* GetWindow() const;
@@ -50,7 +55,7 @@ public:
 	void SetCamera(Camera* camera_);
 
 	void Exit();
-	void NotifyOfMousePressed(glm::vec2 mouse_);
+	void NotifyOfMousePressed(glm::vec2 mouse_, int buttonType_);
 	void NotifyOfMouseReleased(glm::vec2 mouse_, int buttonType_);
 	void NotifyOfMouseMove(glm::vec2 mouse_);
 	void NotifyOfMouseScroll(int y_);
@@ -76,6 +81,7 @@ private:
 	unsigned int fps;
 
 	bool isRunning;
+	bool allowCameraMove;
 
 	GameInterface* gameInterface;
 	int currentSceneNum;

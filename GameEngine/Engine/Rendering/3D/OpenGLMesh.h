@@ -1,7 +1,7 @@
 #ifndef OPENGLMESH_H
 #define OPENGLMESH_H
 
-#include <glew.h>
+#include <gl/glew.h>
 #include "Mesh.h"
 
 class OpenGLMesh : public Mesh

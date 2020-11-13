@@ -23,6 +23,7 @@ ParticleEmitter::ParticleEmitter(int particleCount_, const std::string& textureN
 
 ParticleEmitter::~ParticleEmitter()
 {
+	// cleanup particles
 	if (particles.size() > 0)
 	{
 		for (auto p : particles)
@@ -35,6 +36,7 @@ ParticleEmitter::~ParticleEmitter()
 
 void ParticleEmitter::Update(float deltaTime)
 {
+	// UI for tweaking particle emitter
 	ImGui::Begin("Particle Emitter");
 	ImGui::SliderInt("Particles", &particleCount, 1, 1000);	
 	ImGui::SliderFloat3("Position", glm::value_ptr(startPosition), -10.0f, 10.0f, "%.3f");
@@ -44,6 +46,7 @@ void ParticleEmitter::Update(float deltaTime)
 	ImGui::SliderFloat("Max Size", &maxSize, 1.0f, 3.0f);
 	ImGui::SliderFloat("Max Life Time", &maxLife, 0.1f, 10.0f);
 
+	// initialize each particle
 	for (int i = 0; i < particleCount; i++)
 	{
 		if (particles[i] != nullptr)
